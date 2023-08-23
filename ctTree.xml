@@ -21,17 +21,17 @@
                 select="getTreeChildrenData"
         ></collection>
     </resultMap>
-    <select id="getTreeData" resultMap="treeNodeMap">
+    <select id="getTreeData" resultMap="treeNodeMap"> //映射到treeNodeMap
         <include refid="treeNodeSql"></include>
         <where>
             AND id IN 
-            <foreach collection="parIdList" item="parId" open="(" separator="," close=")">#{parId}</foreach>
+            <foreach collection="parIdList" item="parId" open="(" separator="," close=")">#{parId}</foreach> //父节点id集合list
             AND is_deleted = 0
         </where>
     </select>
 
-    <select id="getTreeChildrenData" resultMap="treeNodeMap">
-        <if test="parTreeId != null and parTreeId != ''">
+    <select id="getTreeChildrenData" resultMap="treeNodeMap"> //再次映射到treeNodeMap，以父节点作为入参继续查找子节点
+        <if test="parTreeId != null and parTreeId != ''"> //父节点不为空接着遍历递归，为空停止
             <include refid="treeNodeSql"></include>
             <where>
                 AND par_tree_id = #{parTreeId}
