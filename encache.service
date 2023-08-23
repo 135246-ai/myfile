@@ -1,0 +1,11 @@
+    /**
+     * @description 获取hos系统id根据对照参数id或code或desc通过缓存
+     * @author LMH
+     * @date 2023-7-24
+     * @param {thirdSysCode："",dataType:"",exId:"",exCode:"",exDesc:""} map
+     * @return sysId
+     */
+    @HOSCacheable(key = " 'getSysId_' + #map['thirdSysCode'] + '_' + #map['dataType'] + '_' + #map['exId'] + '_' + #map['exCode'] + '_' + #map['exDesc']")
+    public String getSysId(Map<String,String> map){
+        return contrastTypeService.getSysId(map);  
+    }
