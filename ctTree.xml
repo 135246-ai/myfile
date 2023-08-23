@@ -1,0 +1,41 @@
+    <sql id="treeNodeSql">
+        SELECT id, hospital_id, type, code, description, par_tree_id, ex_code, sys_code, sys_exid, remark
+        FROM ct_tree
+    </sql>
+
+    <resultMap id="treeNodeMap" type="com.mediway.hos.dtvp.ct.model.vo.TreeListVO">
+        <id column="id" property="id"/>
+        <result column="hospital_id" property="hospitalId"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+        <result column="description" property="label"/>
+        <result column="par_tree_id" property="parTreeId"/>
+        <result column="ex_code" property="exCode"/>
+        <result column="sys_code" property="sysCode"/>
+        <result column="sys_exid" property="sysExid"/>
+        <result column="remark" property="remark"/>
+        <collection 
+                property="children" 
+                column="{parTreeId=id}"
+                ofType="com.mediway.hos.dtvp.ct.model.vo.TreeListVO"
+                select="getTreeChildrenData"
+        ></collection>
+    </resultMap>
+    <select id="getTreeData" resultMap="treeNodeMap">
+        <include refid="treeNodeSql"></include>
+        <where>
+            AND id IN 
+            <foreach collection="parIdList" item="parId" open="(" separator="," close=")">#{parId}</foreach>
+            AND is_deleted = 0
+        </where>
+    </select>
+
+    <select id="getTreeChildrenData" resultMap="treeNodeMap">
+        <if test="parTreeId != null and parTreeId != ''">
+            <include refid="treeNodeSql"></include>
+            <where>
+                AND par_tree_id = #{parTreeId}
+                AND is_deleted = 0
+            </where>
+        </if>
+    </select>
