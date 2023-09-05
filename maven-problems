@@ -1,0 +1,10 @@
+无法访问 Maven 3.8.1 http 仓库。
+
+可能的解决方案:
+- 检查 Maven settings.xml 是否不包含 http 仓库
+- 检查 Maven pom 文件是否不包含 http 仓库 http://mvnrepo.alibaba-inc.com/nexus/content/groups/public/
+- 在 Maven settings.xml 中为 http://mvnrepo.alibaba-inc.com/nexus/content/groups/public/ 添加允许 http url 的镜像
+- 在设置中将 Maven 降级到 3.8.1 或更早的版本
+
+
+解决文案：
